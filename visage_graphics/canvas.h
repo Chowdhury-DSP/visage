@@ -381,11 +381,15 @@ namespace visage {
       addShape(std::move(text_block));
     }
 
+    Text* getText(const String& string, const Font& font, Font::Justification justification) {
+        return state_.current_region->addText(string, font, justification);
+    }
+
     template<typename T1, typename T2, typename T3, typename T4>
     void text(const String& string, const Font& font, Font::Justification justification, const T1& x,
               const T2& y, const T3& width, const T4& height, Direction dir = Direction::Up) {
       if (!string.isEmpty()) {
-        Text* stored_text = state_.current_region->addText(string, font, justification);
+        Text* stored_text = getText(string, font, justification);
         text(stored_text, x, y, width, height, dir);
       }
     }
