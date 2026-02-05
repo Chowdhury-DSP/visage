@@ -690,6 +690,15 @@ namespace visage {
         }
       }
 
+      actual_bounds.left = std::numeric_limits<float>::max();
+      actual_bounds.top = std::numeric_limits<float>::max();
+      for (const auto& quad : quads) {
+          actual_bounds.left = std::min (actual_bounds.left, quad.x); // left
+          actual_bounds.top = std::min (actual_bounds.top, quad.y); // top
+          actual_bounds.right = std::max (actual_bounds.right, quad.x + quad.width); // right
+          actual_bounds.bottom = std::max (actual_bounds.bottom, quad.y + quad.height); // bottom
+      }
+
       float clamp_left = clamp.left - x;
       float clamp_right = clamp.right - x;
       float clamp_top = clamp.top - y;
@@ -715,6 +724,7 @@ namespace visage {
     Text* text = nullptr;
     Font font;
     Direction direction = Direction::Up;
+    ClampBounds actual_bounds {};
   };
 
   struct ShaderWrapper : Shape<> {

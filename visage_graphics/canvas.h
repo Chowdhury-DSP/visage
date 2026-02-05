@@ -373,12 +373,17 @@ namespace visage {
     }
 
     template<typename T1, typename T2, typename T3, typename T4>
+    TextBlock getTextBlock(Text* text, const T1& x, const T2& y, const T3& width, const T4& height,
+                           Direction dir = Direction::Up) {
+        return { state_.clamp, state_.brush, state_.x + pixels(x), state_.y + pixels(y),
+            pixels(width), pixels(height), text,
+            text->font().withDpiScale(state_.scale), dir };
+    }
+
+    template<typename T1, typename T2, typename T3, typename T4>
     void text(Text* text, const T1& x, const T2& y, const T3& width, const T4& height,
               Direction dir = Direction::Up) {
-      TextBlock text_block(state_.clamp, state_.brush, state_.x + pixels(x), state_.y + pixels(y),
-                           pixels(width), pixels(height), text,
-                           text->font().withDpiScale(state_.scale), dir);
-      addShape(std::move(text_block));
+        addShape (getTextBlock (text, x, y, width, height, dir));
     }
 
     Text* getText(const String& string, const Font& font, Font::Justification justification) {
@@ -574,7 +579,6 @@ namespace visage {
 
     State* state() { return &state_; }
 
-  private:
     void setClampBounds(const ClampBounds& bounds) { state_.clamp = bounds; }
 
     template<typename T>
@@ -591,6 +595,7 @@ namespace visage {
       state_.current_region->shape_batcher_.addShape(std::move(shape), state_.blend_mode);
     }
 
+  private:
     void addSegment(float a_x, float a_y, float b_x, float b_y, float thickness,
                     bool rounded = false, float pixel_width = 1.0f) {
       if (thickness <= 0.0f)
