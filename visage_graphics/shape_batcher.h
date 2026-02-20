@@ -70,6 +70,7 @@ namespace visage {
                     const EmbeddedFile& fragment_shader, bool radial_gradient, int submit_pass);
 
   void setImageAtlasUniform(const BatchVector<ImageWrapper>& batches);
+  void setImageAtlasUniform(const BatchVector<ImageRefWrapper>& batches);
   void setGraphDataUniform(const BatchVector<GraphLineWrapper>& batches);
   void setGraphDataUniform(const BatchVector<GraphFillWrapper>& batches);
   void setHeatMapDataUniform(const BatchVector<HeatMapWrapper>& batches);
@@ -145,6 +146,14 @@ namespace visage {
   template<>
   inline void submitShapes<ImageWrapper>(const BatchVector<ImageWrapper>& batches, BlendMode state,
                                          Layer& layer, int submit_pass) {
+    setBlendMode(state);
+    setImageAtlasUniform(batches);
+    submitBaseShapes(batches, state, layer, submit_pass);
+  }
+
+  template<>
+  inline void submitShapes<ImageRefWrapper>(const BatchVector<ImageRefWrapper>& batches, BlendMode state,
+                                            Layer& layer, int submit_pass) {
     setBlendMode(state);
     setImageAtlasUniform(batches);
     submitBaseShapes(batches, state, layer, submit_pass);

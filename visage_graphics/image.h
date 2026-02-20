@@ -246,6 +246,7 @@ namespace visage {
     void setImageCoordinates(TextureVertex* vertices, const PackedImage& image) const;
     int numChannels() const { return data_type_ == DataType::Float32 ? 1 : 4; }
     int bytesPerChannel() const { return data_type_ == DataType::Float32 ? 4 : 1; }
+    int count() const { return (int) images_.size(); }
 
   private:
     void resize();

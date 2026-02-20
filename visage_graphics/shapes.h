@@ -472,6 +472,28 @@ namespace visage {
     ImageAtlas* image_atlas = nullptr;
   };
 
+  struct ImageRefWrapper : Shape<TextureVertex> {
+    static const EmbeddedFile& vertexShader();
+    static const EmbeddedFile& fragmentShader();
+
+    ImageRefWrapper(const ClampBounds& clamp, const PackedBrush* brush, float x, float y, float width,
+                 float height, ImageAtlas::PackedImage& image, ImageAtlas* image_atlas) :
+        Shape(image_atlas, clamp, brush, x, y, width, height),
+        packed_image(image), image_atlas(image_atlas) {
+      if (width == 0.0f) {
+        this->width = packed_image.w();
+        this->height = packed_image.h();
+      }
+    }
+
+    void setVertexData(Vertex* vertices) const {
+      image_atlas->setImageCoordinates(vertices, packed_image);
+    }
+
+    ImageAtlas::PackedImage& packed_image;
+    ImageAtlas* image_atlas = nullptr;
+  };
+
   struct GraphLineWrapper : Primitive<> {
     static const EmbeddedFile& vertexShader();
     static const EmbeddedFile& fragmentShader();
