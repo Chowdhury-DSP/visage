@@ -779,12 +779,14 @@ namespace visage {
     }
 
     void addSvg(const Svg& svg, float x, float y, float width, float height) {
-      SvgDrawable::ColorContext context;
+      SvgDrawable::ColorContext context {};
       if (state_.brush) {
         Brush current = state_.set_brush;
         context.current_color = &current;
+        svg.drawable()->drawAll(*this, &context, x, y, width, height);
+      } else {
+        svg.drawable()->drawAll(*this, &context, x, y, width, height);
       }
-      svg.drawable()->drawAll(*this, &context, x, y, width, height);
     }
 
     void addImage(const Image& image, float x, float y) {
