@@ -14,7 +14,7 @@ elseif (UNIX)
   add_compile_options(-DVISAGE_LINUX=1)
 endif()
 
-if (MSVC)
+if (MSVC AND NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   add_compile_options(/MP /wd4244 /wd4267 /JMC)
 else()
   add_compile_options(-Wno-conversion -Wno-sign-conversion)

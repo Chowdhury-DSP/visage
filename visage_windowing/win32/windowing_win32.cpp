@@ -205,7 +205,7 @@ namespace visage {
     if (window == nullptr)
       return { cursor_position.x * 1.0f, cursor_position.y * 1.0f };
 
-    ScreenToClient(window->windowHandle(), &cursor_position);
+    ScreenToClient((HWND)window->windowHandle(), &cursor_position);
     return window->convertToLogical(IPoint(cursor_position.x, cursor_position.y));
   }
 
@@ -215,7 +215,7 @@ namespace visage {
       return;
 
     POINT client_position = { 0, 0 };
-    ClientToScreen(window->windowHandle(), &client_position);
+    ClientToScreen((HWND)window->windowHandle(), &client_position);
     IPoint position = window->convertToNative(window_position);
     SetCursorPos(client_position.x + position.x, client_position.y + position.y);
   }
@@ -285,7 +285,7 @@ namespace visage {
         else if (SUCCEEDED(monitor_outputs_[monitor]->WaitForVBlank())) {
           long long us = time::microseconds() - start_us_;
           time_ = us * (1.0 / 1000000.0);
-          SendMessage(window_->windowHandle(), WM_VBLANK, 0, 0);
+          SendMessage((HWND)window_->windowHandle(), WM_VBLANK, 0, 0);
         }
         else
           sleep(1);

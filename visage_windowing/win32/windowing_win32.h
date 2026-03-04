@@ -65,7 +65,7 @@ namespace visage {
     void runEventLoop() override;
     LRESULT handleWindowProc(HWND hwnd, UINT msg, WPARAM w_param, LPARAM l_param);
 
-    HWND windowHandle() const { return window_handle_; }
+    void* windowHandle() const override { return window_handle_; }
     void* nativeHandle() const override { return window_handle_; }
     HWND parentHandle() const { return parent_handle_; }
 

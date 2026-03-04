@@ -68,6 +68,7 @@ namespace visage {
 
     children_.push_back(child);
     child->parent_ = this;
+    child->notifyHierarchyChanged();
     child->setEventHandler(event_handler_);
     if (palette_)
       child->setPalette(palette_);

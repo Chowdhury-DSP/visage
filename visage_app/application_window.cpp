@@ -87,7 +87,7 @@ namespace visage {
   }
 
   void ApplicationWindow::showMaximized() {
-    static constexpr float kUnmaximizedWidthPercent = 85.0f;
+    static constexpr float kUnmaximizedWidthPercent = 100.0f;
 
     removeFromWindow();
     window_ = createWindow({}, {}, Dimension::widthPercent(kUnmaximizedWidthPercent),

@@ -65,6 +65,8 @@ namespace visage {
     bool isShowing() const;
     void runEventLoop();
 
+    Window* get_window() { return window_.get(); }
+
   private:
     void showWindow(bool maximized);
 
